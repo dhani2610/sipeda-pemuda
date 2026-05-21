@@ -33,8 +33,12 @@ class PemudaController extends Controller
     {
         // Ambil filter type dari parameter URL (Default: ppan)
         $currentType = $request->query('type', 'ppan');
+        if(auth()->user()->role == 'admin'){
+            $data = Pemuda::where('registration_type', $currentType)->latest()->get();
+        }else{
+            $data = Pemuda::where('registration_type', $currentType)->where('id_user', auth()->user()->id)->latest()->get();
+        }
 
-        $data = Pemuda::where('registration_type', $currentType)->latest()->get();
 
         // Data array tipe yang sudah disesuaikan dengan gambar
         $types = [
@@ -61,6 +65,8 @@ class PemudaController extends Controller
                 $data[$field] = 'uploads/pemuda/' . $filename;
             }
         }
+
+        $data['id_user'] = auth()->user()->id; // Simpan ID user yang membuat pendaftaran
 
         Pemuda::create($data);
         return back()->with('success', 'Data pemuda berhasil ditambahkan.');

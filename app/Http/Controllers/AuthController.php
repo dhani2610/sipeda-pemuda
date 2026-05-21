@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -48,6 +50,41 @@ class AuthController extends Controller
         return back()->withErrors([
             'email' => 'Email atau password yang Anda masukkan salah.',
         ])->onlyInput('email');
+    }
+
+    public function showRegisterForm()
+    {
+        if (Auth::check()) {
+            return redirect()->route('dashboard.index');
+        }
+        return view('auth.register');
+    }
+
+    /**
+     * Memproses pendaftaran User baru
+     */
+    public function register(Request $request)
+    {
+        // 1. Validasi input
+        $validated = $request->validate([
+            'name'          => 'required|string|max:255',
+            'email'         => 'required|string|email|max:255|unique:users',
+            'password'      => 'required|string|min:6',
+            'nomor_telepon' => 'nullable|string|max:20',
+            'role'          => 'required|in:user', // Mengunci role agar selalu 'user'
+        ], [
+            'email.unique' => 'Email sudah digunakan. Silakan login atau gunakan email lain.',
+            'password.min' => 'Password minimal harus 6 karakter.'
+        ]);
+
+        // 2. Hash Password
+        $validated['password'] = Hash::make($validated['password']);
+
+        // 3. Simpan ke database
+        User::create($validated);
+
+        // 4. Redirect ke login dengan pesan sukses
+        return redirect()->route('login')->with('success', 'Akun berhasil dibuat! Silakan login.');
     }
 
     /**

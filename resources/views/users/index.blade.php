@@ -28,11 +28,11 @@
                     <td>{{ $item->email }}</td>
                     <td>{{ $item->nomor_telepon ?? '-' }}</td>
                     <td>
-                        <button class="btn btn-sm btn-warning edit-btn text-white" 
-                            data-id="{{ $item->id }}" 
-                            data-name="{{ $item->name }}" 
-                            data-email="{{ $item->email }}" 
-                            data-telp="{{ $item->nomor_telepon }}" 
+                        <button class="btn btn-sm btn-warning edit-btn text-white"
+                            data-id="{{ $item->id }}"
+                            data-name="{{ $item->name }}"
+                            data-email="{{ $item->email }}"
+                            data-telp="{{ $item->nomor_telepon }}"
                             data-bs-toggle="modal" data-bs-target="#editModal">
                             <i class="fas fa-edit"></i>
                         </button>

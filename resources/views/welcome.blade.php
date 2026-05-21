@@ -90,11 +90,11 @@
                     </span>
 
                     <h1 class="display-4 fw-bolder mb-3" style="line-height: 1.2;">
-                        {{ $setting->hero_title ?? 'PENDAFTARAN PEMUDA SULAWESI TENGAH' }}
+                        {{ $setting->nama_instansi ?? 'PENDAFTARAN PEMUDA SULAWESI TENGAH' }}
                     </h1>
 
                     <p class="fs-5 text-white-50 mb-5">
-                        {{ $setting->hero_subtitle ?? 'Bangun Masa Depan Kepemudaan Prov. Sulawesi Tengah' }}
+                        {{ $setting->deskripsi_singkat ?? 'Bangun Masa Depan Kepemudaan Prov. Sulawesi Tengah' }}
                     </p>
 
                     <a href="{{ url('login') }}" class="btn btn-glow px-5 py-3 fw-bold fs-6 rounded-4">
